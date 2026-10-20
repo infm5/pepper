@@ -1,0 +1,17 @@
+name: pepper
+description: >-
+  A feature-complete, high-performance in-memory(L1) cache for Dart servers.
+  Eviction algorithms, TTL, loaders with in-flight deduplication and
+  negative caching, metrics, inspired by samber/hot.
+version: 0.1.0
+
+environment:
+  sdk: ^3.12.2
+
+dev_dependencies:
+  benchmark_harness: ^2.3.1
+  collection: ^1.19.0
+  coverage: ^1.16.0
+  fake_async: ^1.3.3
+  lints: ^6.0.0
+  test: ^1.25.6
