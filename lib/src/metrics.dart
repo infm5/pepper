@@ -19,7 +19,11 @@ abstract class CacheMetrics {
   /// Called when an entry is stored, including loaded and negative entries.
   void onInsert() {}
 
-  /// Called when an entry is evicted automatically.
+  /// Called when an entry leaves the cache.
+  ///
+  /// This covers capacity evictions, TTL expiry and explicit `delete` calls
+  /// (reported as [EvictionReason.manual]). A `purge` reports [onPurge]
+  /// instead of one event per entry.
   void onEviction(EvictionReason reason) {}
 
   /// Called when the cache is purged.
@@ -84,7 +88,9 @@ final class SimpleCacheMetrics extends CacheMetrics {
     return total == 0 ? 0 : _hits / total;
   }
 
-  /// The total number of automatic evictions.
+  /// The total number of recorded eviction events.
+  ///
+  /// Includes capacity, TTL and manual (`delete`) events.
   int get totalEvictions {
     var total = 0;
     for (final count in _evictions) {

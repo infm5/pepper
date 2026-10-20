@@ -1,0 +1,9 @@
+.dart_tool/
+build/
+coverage/
+pubspec.lock
+hot/
+skills-lock.json
+docs/node_modules/
+docs/.vitepress/cache/
+docs/.vitepress/dist/
