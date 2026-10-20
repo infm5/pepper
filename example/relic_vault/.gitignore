@@ -1,9 +1,9 @@
 # Build output and generated benchmark data.
 .dart_tool/
-build/
-data/
-bench/trace.txt
-bench/results/raw/
+/build/
+/data/
+/bench/trace.txt
+/bench/results/raw/
 
 # SQLite sidecar files.
 *.db-shm
