@@ -16,3 +16,9 @@ skills-lock.json
 # Local build output.
 build/
 .DS_Store
+
+# Node / VitePress docs build
+node_modules/
+.vitepress/cache/
+.vitepress/dist/
+.wrangler/
