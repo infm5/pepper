@@ -29,6 +29,11 @@ Future<void> main(List<String> arguments) async {
     ..addOption('port', defaultsTo: '18080')
     ..addOption('seed-count', defaultsTo: '50000')
     ..addOption('trace-count', defaultsTo: '0')
+    ..addOption(
+      'trace',
+      defaultsTo: 'bench/trace.txt',
+      help: 'Generated URL trace path.',
+    )
     ..addOption('db', defaultsTo: 'build/relics.db')
     ..addOption('out', defaultsTo: 'bench/results/latest.md')
     ..addOption('json', defaultsTo: 'bench/results/latest.json')
@@ -57,8 +62,8 @@ Future<void> main(List<String> arguments) async {
 
   final quick = options['profile'] == _profileQuick;
   final runs = _positiveInt(options, 'runs', fallback: quick ? 1 : 3);
-  final duration = _positiveInt(options, 'duration', fallback: quick ? 5 : 20);
-  final warmup = _positiveInt(options, 'warmup', fallback: quick ? 1 : 5);
+  final duration = _positiveInt(options, 'duration', fallback: quick ? 10 : 20);
+  final warmup = _positiveInt(options, 'warmup', fallback: quick ? 3 : 5);
   final traceCount = _positiveInt(
     options,
     'trace-count',
@@ -70,7 +75,7 @@ Future<void> main(List<String> arguments) async {
 
   final root = p.dirname(p.dirname(Platform.script.toFilePath()));
   final dbPath = p.normalize(p.join(root, options['db'] as String));
-  final tracePath = p.join(root, 'bench', 'trace.txt');
+  final tracePath = p.normalize(p.join(root, options['trace'] as String));
   final rawDir = p.normalize(p.join(root, options['raw-dir'] as String));
   final markdownPath = p.normalize(p.join(root, options['out'] as String));
   final jsonPath = p.normalize(p.join(root, options['json'] as String));
@@ -438,6 +443,7 @@ Future<RunningServer> _startServer({
   required String dbPath,
   required Scenario scenario,
 }) async {
+  await _ensurePortAvailable(port);
   final arguments = <String>[
     '--port=$port',
     '--db=$dbPath',
@@ -495,6 +501,23 @@ Future<RunningServer> _startServer({
   throw StateError(
     'Server failed to start for ${scenario.name}:\n${output.join('\n')}',
   );
+}
+
+Future<void> _ensurePortAvailable(int port) async {
+  try {
+    final socket = await Socket.connect(
+      InternetAddress.loopbackIPv4,
+      port,
+      timeout: const Duration(milliseconds: 250),
+    );
+    socket.destroy();
+    throw StateError(
+      'Port $port is already in use. Stop the other server or benchmark '
+      'before starting a new run.',
+    );
+  } on SocketException {
+    // No listener on the port; the server can bind.
+  }
 }
 
 Future<OhaResult> _runOha({
