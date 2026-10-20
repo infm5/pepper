@@ -287,6 +287,34 @@ dart test
 dart run bench/run.dart --profile=quick
 ```
 
+## Make shortcuts
+
+Run `make help` for the full list. Common workflows:
+
+```sh
+make setup              # core + example + docs dependencies, seed the demo
+make test               # core and example tests
+make check              # format check + analyze + tests
+make bench              # core microbenchmarks, average of 3 runs
+make bench:example      # quick Relic Vault benchmark
+make bench:example:full # full Relic Vault benchmark
+make docs:dev           # VitePress dev server
+make docs:build         # production docs build
+make run:example        # run the Relic Vault server
+```
+
+Useful overrides:
+
+```sh
+BENCH_RUNS=5 make bench
+EXAMPLE_SEED_COUNT=10000 make setup:example
+```
+
+`make bench:example` writes the quick report to `bench/results/quick.md` on
+port 18081. `make bench:example:full` writes the canonical report to
+`bench/results/latest.md` on port 18080. A lock prevents make-driven benchmark
+runs from colliding.
+
 ## Documentation
 
 The VitePress site lives in `docs/`:
