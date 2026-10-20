@@ -192,6 +192,38 @@ Run the benchmarks yourself:
 dart run bench/bench.dart
 ```
 
+## End-to-end example
+
+The
+[`example/relic_vault`](https://github.com/infm5/pepper/tree/master/example/relic_vault)
+directory contains a working Relic HTTP service backed by SQLite and protected
+by two `HotCache` instances.
+It is a separate application with its own dependencies; the published package
+still has zero runtime dependencies.
+
+```sh
+cd example/relic_vault
+dart pub get
+dart run bin/seed.dart --db=data/relics.db --count=50000
+dart run bin/server.dart --db=data/relics.db
+```
+
+The demo exercises detail and batch reads, search caching, negative caching,
+single-flight cold loads, write invalidation, metrics and a small browser UI.
+
+An end-to-end benchmark harness drives the whole HTTP path with `oha`:
+
+```sh
+dart run bench/run.dart --profile=full
+```
+
+It compares no cache vs pepper, local vs simulated remote-database latency,
+LRU vs LFU, capacity sweeps, cold-start stampedes and 404 storms. On the
+reference M5 run, the mixed workload improved from about **1.1k req/s** without
+caching to **21.6k req/s** with pepper; a 1,000-request cold burst issued one
+SQLite query instead of 1,000. The full report is at
+[`example/relic_vault/bench/results/latest.md`](https://github.com/infm5/pepper/blob/master/example/relic_vault/bench/results/latest.md).
+
 ## Design notes
 
 - **One isolate per cache.** A Dart isolate executes synchronous code without
@@ -244,6 +276,15 @@ dart test --coverage=coverage
 dart run coverage:format_coverage --lcov --in=coverage --out=coverage/lcov.info --report-on=lib
 dart run bench/bench.dart
 dart run example/pepper_example.dart
+```
+
+The Relic Vault prototype has its own package and checks:
+
+```sh
+cd example/relic_vault
+dart pub get
+dart test
+dart run bench/run.dart --profile=quick
 ```
 
 ## Documentation
