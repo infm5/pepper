@@ -256,5 +256,5 @@ npm run docs:dev
 npm run docs:build
 ```
 
-The production build is written to `.vitepress/dist`. Cloudflare Pages can
-import this repository directly using the VitePress preset.
+The production build is written to `.vitepress/dist`. Cloudflare can import
+this repository directly; the VitePress project is at the repository root.
