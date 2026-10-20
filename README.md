@@ -3,7 +3,7 @@
 LRU · LFU · FIFO · TTL + jitter · load-through · negative caching · metrics
 
 [![CI](https://github.com/infm5/pepper/actions/workflows/ci.yml/badge.svg)](https://github.com/infm5/pepper/actions/workflows/ci.yml)
-[![codecov](https://codecov.io/gh/infm5/pepper/graph/badge.svg)](https://codecov.io/gh/infm5/pepper)
+[![codecov](https://codecov.io/gh/infm5/pepper/branch/master/graph/badge.svg)](https://codecov.io/gh/infm5/pepper)
 [![Dart](https://img.shields.io/badge/dart-%5E3.12.2-blue?logo=dart)](https://dart.dev)
 [![Runtime dependencies](https://img.shields.io/badge/runtime%20dependencies-0-brightgreen)](pubspec.yaml)
 [![Platform](https://img.shields.io/badge/platform-Dart%20VM-lightgrey)](https://dart.dev)
