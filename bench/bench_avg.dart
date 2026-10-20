@@ -3,7 +3,7 @@ import 'dart:io';
 /// Runs a compiled benchmark binary several times and prints the average.
 ///
 /// Usage:
-///   `dart run tool/bench_avg.dart [--runs=N] <path-to-benchmark-binary>`
+///   `dart run bench/bench_avg.dart [--runs=N] <path-to-benchmark-binary>`
 Future<void> main(List<String> arguments) async {
   var runs = 3;
   String? binary;
@@ -107,7 +107,8 @@ Future<void> main(List<String> arguments) async {
     }
   }
 
-  stdout.writeln('pepper benchmarks — average of $runs runs');
+  final runLabel = runs == 1 ? 'run' : 'runs';
+  stdout.writeln('pepper benchmarks — average of $runs $runLabel');
   stdout.writeln();
   for (final name in order) {
     final values = samples[name]!;
@@ -124,7 +125,7 @@ Future<void> main(List<String> arguments) async {
 void _usage(String message) {
   stderr.writeln(message);
   stderr.writeln(
-    'Usage: dart run tool/bench_avg.dart [--runs=N] <benchmark-binary>',
+    'Usage: dart run bench/bench_avg.dart [--runs=N] <benchmark-binary>',
   );
   exitCode = 64;
 }

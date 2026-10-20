@@ -151,7 +151,7 @@ $(BENCH_BIN): $(BENCH_SOURCES)
 bench: bench-core ## Core microbenchmarks, averaged over BENCH_RUNS (default 3).
 
 bench-core: setup-core $(BENCH_BIN) ## Core microbenchmarks, averaged over BENCH_RUNS.
-	@$(DART) run tool/bench_avg.dart --runs=$(BENCH_RUNS) $(BENCH_BIN)
+	@$(DART) run bench/bench_avg.dart --runs=$(BENCH_RUNS) $(BENCH_BIN)
 
 bench-core-once: setup-core $(BENCH_BIN) ## Run the core microbenchmark once.
 	@./$(BENCH_BIN)
