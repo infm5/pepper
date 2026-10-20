@@ -4,7 +4,6 @@ export default defineConfig({
   title: 'pepper',
   description: 'High-performance in-memory caching for Dart servers',
   base: '/',
-  srcDir: 'docs',
   srcExclude: ['README.md'],
   cleanUrls: true,
   lastUpdated: true,

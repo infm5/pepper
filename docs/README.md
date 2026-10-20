@@ -2,7 +2,7 @@
 
 Source files for the VitePress documentation site.
 
-Build from the repository root:
+Build from this directory:
 
 ```sh
 npm install

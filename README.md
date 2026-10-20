@@ -248,13 +248,14 @@ dart run example/pepper_example.dart
 
 ## Documentation
 
-The VitePress site lives in `docs/` and builds from the repository root:
+The VitePress site lives in `docs/`:
 
 ```sh
+cd docs
 npm install
 npm run docs:dev
 npm run docs:build
 ```
 
-The production build is written to `.vitepress/dist`. Cloudflare can import
-this repository directly; the VitePress project is at the repository root.
+The production build is written to `docs/.vitepress/dist`. Cloudflare can
+import this repository directly.

@@ -1,6 +1,13 @@
 # Node dependencies
 node_modules/
 
+# VitePress build output and cache
+.vitepress/cache/
+.vitepress/dist/
+
+# Wrangler / Cloudflare local state
+.wrangler/
+
 # Logs
 npm-debug.log*
 yarn-debug.log*
