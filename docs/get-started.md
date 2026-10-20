@@ -20,8 +20,7 @@ Once the first pub.dev release is out:
 dart pub add pepper
 ```
 
-::: tip Before the first pub.dev release
-`pepper` is currently consumed from the repository:
+::: tip Or from the Github Repo 
 
 ```yaml
 dependencies:
