@@ -6,6 +6,27 @@ on:
   pull_request:
 
 jobs:
+  prototype:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: example/relic_vault
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dart-lang/setup-dart@v1
+        with:
+          sdk: stable
+      - name: Install dependencies
+        run: dart pub get
+      - name: Verify formatting
+        run: dart format --output=none --set-exit-if-changed .
+      - name: Analyze
+        run: dart analyze --fatal-infos
+      - name: Run tests
+        run: dart test
+      - name: Build demo server
+        run: dart build cli --target=bin/server.dart -o build/server
+
   test:
     runs-on: ubuntu-latest
     steps:

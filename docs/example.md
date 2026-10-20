@@ -176,3 +176,61 @@ cache — it remains usable for synchronous operations.
 ```sh
 dart run example/pepper_example.dart
 ```
+
+## Real-world prototype: Relic Vault
+
+The repository also contains a complete Relic + SQLite application in
+[`example/relic_vault`](https://github.com/infm5/pepper/tree/master/example/relic_vault).
+It is a read-heavy relic catalog with a small browser UI:
+
+- `GET /api/relics/:id` — cached detail
+- `GET /api/relics?ids=1,2,3` — cached batch reads
+- `GET /api/relics?q=gold&limit=20` — cached search
+- `PUT /api/relics/:id` — update and invalidation
+- `GET /api/cache/stats` — hits, misses, evictions, DB queries and RSS
+
+The service keeps a detail cache and a separate search cache. Detail entries
+use a dedicated negative cache, so repeated 404s do not reach SQLite. Cache
+values are encoded JSON, which means a hit avoids both the database and
+serialization. Writes replace the detail entry and purge search results.
+
+Run it from the repository root:
+
+```sh
+cd example/relic_vault
+dart pub get
+dart run bin/seed.dart --db=data/relics.db --count=50000
+dart run bin/server.dart --db=data/relics.db
+```
+
+The full end-to-end benchmark uses `oha` against the compiled server:
+
+```sh
+dart run bench/run.dart --profile=full
+```
+
+It compares no cache vs pepper, local SQLite vs simulated remote-database
+latency, LRU vs LFU, capacity sweeps, a cold-start stampede and repeated 404s.
+The generated report, including methodology and caveats, is at
+[`example/relic_vault/bench/results/latest.md`](https://github.com/infm5/pepper/blob/master/example/relic_vault/bench/results/latest.md).
+
+### Reference run
+
+On an Apple M5 with 16 GB, Dart 3.12.2 and Relic 1.2.0 (100,000-URL trace,
+64 connections, three 20-second runs, 5-minute cache TTL):
+
+| Workload | No cache | pepper LRU, 10k |
+|---|---:|---:|
+| local SQLite | 1,116 req/s · p99 111 ms · 1.00 DB q/req | 21,562 req/s · p99 14.3 ms · 0.18 DB q/req |
+| 2 ms backend | 1,109 req/s · p99 113 ms · 1.00 DB q/req | 20,450 req/s · p99 21.1 ms · 0.18 DB q/req |
+
+The detail cache hit **82%** and the search cache **97%**. A 1,000-request cold
+burst issued **1** SQLite query with pepper versus **1,000** without; the same
+held for the 404 burst via negative caching. Capacity matters: 28% hit rate at
+100 entries, 53% at 1k, 82% at 10k and 95% at 50k. LFU reached 83.8% versus
+LRU's 82.1%, but was slightly slower (19.6k versus 20.5k req/s) on this
+workload.
+
+The mixed trace includes an intentionally expensive `LIKE` search, so the
+no-cache baseline is dominated by those scans. Absolute numbers are
+machine-specific; the report contains the full matrix and caveats.

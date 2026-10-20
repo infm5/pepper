@@ -1,0 +1,7 @@
+include: package:lints/recommended.yaml
+
+linter:
+  rules:
+    prefer_final_locals: true
+    prefer_initializing_formals: false
+    avoid_print: false

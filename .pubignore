@@ -10,3 +10,4 @@ docs/.vitepress/dist/
 docs/wrangler.jsonc
 docs/package.json
 docs/package-lock.json
+example/relic_vault/
