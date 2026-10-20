@@ -4,6 +4,8 @@ description: >-
   Eviction algorithms, TTL, loaders with in-flight deduplication and
   negative caching, metrics, inspired by samber/hot.
 version: 0.1.0
+homepage: https://pepper.infms.dev
+repository: https://github.com/infm5/pepper
 
 environment:
   sdk: ^3.12.2

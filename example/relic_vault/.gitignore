@@ -3,7 +3,7 @@
 /build/
 /data/
 /bench/trace.txt
-/bench/results/raw/
+/bench/results/
 
 # SQLite sidecar files.
 *.db-shm
