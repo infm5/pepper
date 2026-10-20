@@ -245,3 +245,16 @@ dart run coverage:format_coverage --lcov --in=coverage --out=coverage/lcov.info 
 dart run bench/bench.dart
 dart run example/pepper_example.dart
 ```
+
+## Documentation
+
+The VitePress site lives in `docs/` and builds from the repository root:
+
+```sh
+npm install
+npm run docs:dev
+npm run docs:build
+```
+
+The production build is written to `.vitepress/dist`. Cloudflare Pages can
+import this repository directly using the VitePress preset.

@@ -4,6 +4,9 @@ coverage/
 pubspec.lock
 hot/
 skills-lock.json
+node_modules/
+.vitepress/
+.wrangler/
+package.json
+package-lock.json
 docs/node_modules/
-docs/.vitepress/cache/
-docs/.vitepress/dist/
