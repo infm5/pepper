@@ -18,5 +18,5 @@ Initial release: the core of the cache.
   `setMissing*` and by loaders that do not return a key.
 - Eviction callbacks with reasons, copy-on-read/copy-on-write hooks, and a
   pluggable `CacheMetrics` sink with a `SimpleCacheMetrics` implementation.
-- Zero runtime dependencies; 202 tests with 100% line coverage and
+- Zero runtime dependencies; 212 tests with 100% line coverage and
   benchmark suites comparing algorithms on microbenchmarks and traces.

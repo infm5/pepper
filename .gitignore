@@ -12,3 +12,7 @@ hot/
 .*/skills
 .*/dart_skills
 skills-lock.json
+
+# Local build output.
+build/
+.DS_Store

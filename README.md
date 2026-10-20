@@ -1,11 +1,12 @@
-# Pepper: A high-performance, dependency-free in-memory cache for Dart.
+# Pepper🌶️: A high-performance, dependency-free in-memory cache for Dart.
 
 LRU · LFU · FIFO · TTL + jitter · load-through · negative caching · metrics
 
 [![CI](https://github.com/infm5/pepper/actions/workflows/ci.yml/badge.svg)](https://github.com/infm5/pepper/actions/workflows/ci.yml)
 [![codecov](https://codecov.io/gh/infm5/pepper/branch/master/graph/badge.svg)](https://codecov.io/gh/infm5/pepper)
+[![Docs](https://img.shields.io/badge/docs-online-brightgreen)](https://pepper-docs.pages.dev)
 [![Dart](https://img.shields.io/badge/dart-%5E3.12.2-blue?logo=dart)](https://dart.dev)
-[![Runtime dependencies](https://img.shields.io/badge/runtime%20dependencies-0-brightgreen)](pubspec.yaml)
+[![Runtime dependencies](https://img.shields.io/badge/runtime%20dependencies-0-brightgreen)](https://github.com/infm5/pepper/blob/master/pubspec.yaml)
 [![Platform](https://img.shields.io/badge/platform-Dart%20VM-lightgrey)](https://dart.dev)
 
 Inspired by [samber/hot](https://github.com/samber/hot).
@@ -245,6 +246,29 @@ dart run coverage:format_coverage --lcov --in=coverage --out=coverage/lcov.info 
 dart run bench/bench.dart
 dart run example/pepper_example.dart
 ```
+
+### Documentation site
+
+The guides live in `docs/` and are built with VitePress:
+
+```sh
+cd docs
+npm install
+npm run docs:dev    # local preview
+npm run docs:build  # production build in docs/.vitepress/dist
+```
+
+The site is deployed with **Cloudflare Pages**:
+
+- Root directory: `docs`
+- Build command: `npm run docs:build`
+- Build output directory: `.vitepress/dist`
+- Production URL: **https://pepper-docs.pages.dev**
+
+The site is served at the domain root (`base: '/'`). Pushes to `master`
+deploy automatically; pull requests get Cloudflare preview URLs. The
+`docs/wrangler.toml` file also supports manual deploys with
+`npx wrangler pages deploy .vitepress/dist`.
 
 The test suite covers the eviction contract for every algorithm, the full
 facade API, TTL/jitter/janitor behaviour on a fake clock, loader concurrency

@@ -6,7 +6,10 @@ enum EvictionReason {
   /// The entry's time-to-live elapsed.
   ttl,
 
-  /// The entry was removed explicitly, through `delete` or `purge`.
+  /// The entry was removed explicitly through `delete`.
+  ///
+  /// A `purge` is reported separately, as a purge event, rather than as a
+  /// per-entry manual eviction.
   manual,
 }
 
