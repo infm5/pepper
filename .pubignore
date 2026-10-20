@@ -12,3 +12,4 @@ docs/package.json
 docs/package-lock.json
 example/relic_vault/
 docs/node_modules/
+example/relic_vault/bench/results/

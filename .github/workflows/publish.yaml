@@ -1,0 +1,48 @@
+name: Publish to pub.dev
+
+on:
+  push:
+    tags:
+      # Must match the tag pattern configured on pub.dev: v{{version}}
+      - 'v[0-9]+.[0-9]+.[0-9]+'
+
+concurrency:
+  group: pub-publish
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write # OIDC auth for pub.dev; no long-lived token needed
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Verify tag is on master and matches pubspec version
+        run: |
+          set -euo pipefail
+
+          if ! git merge-base --is-ancestor "$GITHUB_SHA" origin/master; then
+            echo "::error::Tag $GITHUB_REF_NAME is not on master."
+            exit 1
+          fi
+
+          version="$(awk '/^version:/ {print $2; exit}' pubspec.yaml)"
+          if [ "v$version" != "$GITHUB_REF_NAME" ]; then
+            echo "::error::Tag $GITHUB_REF_NAME does not match pubspec version $version."
+            exit 1
+          fi
+
+      - name: Set up Dart
+        uses: dart-lang/setup-dart@v1
+
+      - name: Install dependencies
+        run: dart pub get
+
+      - name: Publish
+        run: dart pub publish --force
